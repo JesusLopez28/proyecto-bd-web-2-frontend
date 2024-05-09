@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react"
-import "./Test.css"
+import { useEffect, useState } from 'react'
+import './Test.css'
 
 function Test() {
   const [product, setProduct] = useState<any>(null)
 
   useEffect(() => {
-    fetch("http://localhost:3010/api/v1/products/findSecondProduct")
+    fetch('http://localhost:3010/api/v1/products/findSecondProduct')
       .then((res) => res.json())
       .then((data) => setProduct(data))
   }, [])
