@@ -1,9 +1,9 @@
-import Test from './Test'
+import Login from './components/Login/Login'
 
 function App() {
   return (
     <>
-      <Test />
+      <Login />
     </>
   )
 }
