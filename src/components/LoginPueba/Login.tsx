@@ -7,7 +7,12 @@ function Login() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log(email, password)
+    if (email === '' || password === '') {
+      alert('Correo o contraseña vacíos')
+      return
+    } else {
+      alert('Inicio de sesión exitoso')
+    }
   }
 
   return (
