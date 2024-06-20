@@ -1,37 +1,11 @@
-import { useState, useEffect } from 'react'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './Login.css'
 
 function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [showData, setShowData] = useState<boolean>(false)
-  const [products, setProducts] = useState<Array<Object>>([])
-
-  useEffect(() => {
-    if (localStorage.getItem('token')) {
-      setShowData(true)
-    }
-
-    const fetchData = async () => {
-      try {
-        const response = await fetch('http://localhost:3010/api/v1/products', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          }
-        })
-        if (response.ok) {
-          const data = await response.json()
-          console.log(data)
-          setProducts(data)
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    if (showData) {
-      fetchData()
-    }
-  }, [showData])
+  const navigate = useNavigate()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -47,7 +21,6 @@ function Login() {
         alert('Inicio de sesión exitoso')
         const data = await response.json()
         console.log(data)
-        setShowData(true)
         setEmail('')
         setPassword('')
         localStorage.setItem('token', data.token)
@@ -58,6 +31,10 @@ function Login() {
     } catch (error) {
       alert('Error al iniciar sesión')
     }
+  }
+
+  const handleRegisterRedirect = () => {
+    navigate('/register')
   }
 
   return (
@@ -87,37 +64,10 @@ function Login() {
             Login
           </button>
         </form>
+        <button onClick={handleRegisterRedirect} className="login-btn">
+          Register
+        </button>
       </div>
-      {showData && <ProductTable products={products} />}
-    </div>
-  )
-}
-
-const ProductTable = ({ products }: { products: Array<Object> }) => {
-  return (
-    <div className="product-table-container">
-      <table className="product-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Precio</th>
-            <th>Categoría</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((product: any) => (
-            <tr key={product._id}>
-              <td>{product._id}</td>
-              <td>{product.name}</td>
-              <td>{product.description}</td>
-              <td>{product.price}</td>
-              <td>{product.category.name}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </div>
   )
 }
