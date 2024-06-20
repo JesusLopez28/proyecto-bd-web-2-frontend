@@ -25,6 +25,8 @@ function Login() {
         setPassword('')
         localStorage.setItem('token', data.token)
         localStorage.setItem('user', JSON.stringify(data.user))
+
+        navigate('/dashboard')
       } else {
         Swal.fire('Error', 'Error al iniciar sesión', 'error')
       }
